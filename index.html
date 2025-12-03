@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PORTFOLIO | dzynsbysoham</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- CORE VARIABLES --- */
+        :root {
+            --bg: #050505;
+            --surface: #121212;
+            --text: #e0e0e0;
+            --accent: #ccff00; /* Neon Lime */
+            --accent-glow: rgba(204, 255, 0, 0.4);
+            --border: #333;
+            --font-main: 'Space Grotesk', sans-serif;
+            --font-display: 'Syne', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            cursor: none;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        /* --- CUSTOM CURSOR --- */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            mix-blend-mode: difference;
+            display: block;
+        }
+        .cursor.hovered {
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent);
+            opacity: 0.8;
+        }
+
+        /* --- BACKGROUND --- */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.1;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .brand h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            text-transform: uppercase;
+            line-height: 0.9;
+            color: var(--accent);
+        }
+
+        .brand span {
+            display: block;
+            font-size: 1rem;
+            color: #fff;
+            letter-spacing: 2px;
+            margin-top: 0.5rem;
+        }
+
+        .nav-links {
+            text-align: right;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-item {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: #888;
+            transition: 0.3s;
+        }
+        .nav-item:hover, .nav-item.active {
+            color: var(--accent);
+        }
+
+        .status-tag {
+            display: inline-block;
+            background: var(--accent);
+            color: #000;
+            padding: 0.2rem 0.8rem;
+            font-weight: 700;
+            font-size: 1rem;
+            transform: rotate(-2deg);
+            margin-left: 10px;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 2rem;
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            position: relative;
+            min-height: 300px;
+            align-items: center;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--accent);
+        }
+
+        .hero-text h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            line-height: 1;
+            color: #fff;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+        
+        .hero-text p {
+            color: #aaa;
+            font-size: 1.1rem;
+            max-width: 90%;
+            margin-bottom: 2rem;
+        }
+
+        .hero-stats {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1.5rem;
+            border-left: 1px solid var(--border);
+            padding-left: 2rem;
+        }
+
+        .stat-block h3 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--accent);
+            line-height: 1;
+        }
+        .stat-block span {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- PORTFOLIO GRID --- */
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::after {
+            content: '';
+            height: 1px;
+            background: var(--border);
+            flex-grow: 1;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 5rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            display: block; /* Ensure anchor behaves like block */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-content {
+            padding: 1.2rem;
+        }
+
+        .card-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+            color: #fff;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 1px dashed #333;
+        }
+
+        .card-tag {
+            color: var(--accent);
+            font-weight: bold;
+            text-transform: uppercase;
+            position: relative;
+        }
+        /* Hover arrow effect */
+        .card:hover .card-tag::after {
+            content: ' →';
+        }
+
+        /* --- SERVICES & CONTACT --- */
+        .services-section {
+            background: var(--surface);
+            border: 2px solid var(--accent);
+            padding: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .service-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .service-item h4 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+        .service-item p { font-size: 0.9rem; color: #888; }
+
+        .contact-section {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            margin-bottom: 6rem;
+            padding: 2rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
+        }
+
+        .contact-info { flex-grow: 1; }
+        .contact-info h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            font-family: var(--font-display);
+        }
+
+        .btn-primary {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 1rem 2.5rem;
+            background: var(--accent);
+            color: #000;
+            border: none;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: scale(1.02);
+        }
+
+        .social-links { display: flex; gap: 1rem; flex-shrink: 0; }
+        .social-icon {
+            width: 50px; height: 50px;
+            border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--accent); font-weight: bold;
+            border-radius: 50%; transition: 0.3s;
+        }
+        .social-icon:hover { background: var(--accent); color: #000; }
+
+        /* --- MARQUEE --- */
+        .marquee-container {
+            position: fixed; bottom: 1rem; left: 0; width: 100%;
+            overflow: hidden; z-index: 1; pointer-events: none; opacity: 0.05;
+        }
+        .marquee-text {
+            white-space: nowrap; font-family: var(--font-display);
+            font-size: 6rem; animation: marquee 20s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        footer {
+            text-align: center; padding: 2rem;
+            border-top: 1px solid var(--border);
+            color: #555; font-size: 0.8rem;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .cursor { display: none !important; }
+            * { cursor: auto !important; }
+
+            header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+            .nav-links {
+                width: 100%; justify-content: space-between;
+                border-top: 1px solid #222; padding-top: 1rem;
+            }
+
+            .hero-section { grid-template-columns: 1fr; text-align: left; }
+            .hero-stats {
+                border-left: none; border-top: 1px solid var(--border);
+                padding-left: 0; padding-top: 1.5rem;
+                flex-direction: row; justify-content: space-between; text-align: left;
+            }
+
+            .projects-grid { grid-template-columns: 1fr; }
+            .service-list { grid-template-columns: 1fr; gap: 2rem; text-align: left; }
+            .contact-section { flex-direction: column; align-items: flex-start; }
+            .btn-primary { width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor"></div>
+    <div class="bg-grid"></div>
+
+    <div class="marquee-container">
+        <div class="marquee-text">OPEN FOR WORK /// CREATIVE DESIGN ///</div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="brand">
+                <h1>dzynsby<br>soham</h1>
+                <span>PORTFOLIO</span>
+            </div>
+            <nav class="nav-links">
+                <a href="#work" class="nav-item">Work</a>
+                <a href="#services" class="nav-item">Services</a>
+                <a href="#contact" class="nav-item">Contact</a>
+                <div class="status-tag">AVAILABLE</div>
+            </nav>
+        </header>
+
+        <section class="hero-section">
+            <div class="hero-text">
+                <h2>VISUALS THAT<br><span style="color: var(--accent);">GET CLICKS</span></h2>
+                <p>Specializing in high-performance thumbnails and creative design for crypto, gaming, and finance creators.</p>
+                <a href="#contact" class="btn-primary">Start Project</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-block">
+                    <h3>4+</h3>
+                    <span>Years Exp</span>
+                </div>
+                <div class="stat-block">
+                    <h3>500+</h3>
+                    <span>Thumbnails</span>
+                </div>
+                <div class="stat-block">
+                    <h3>100%</h3>
+                    <span>Satisfaction</span>
+                </div>
+            </div>
+        </section>
+
+        <h3 class="section-title" id="work">Selected Works</h3>
+        <div class="projects-grid">
+            
+            <a href="https://youtu.be/g4vp9gd84wA?si=HrLrdCGad3-GaLgQ" target="_blank" class="card">
+                <img src="Images/Thumbnail1.jpg" alt="Crypto Guide" class="card-image">
+                <div class="card-content">
+                    <div class="card-title">10x Crypto Returns</div>
+                    <div class="card-meta">
+                        <span>Finance</span>
+                        <span class="card-tag">View Video</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://youtu.be/S-8vBJzrO40?si=Hch_hSbtBc7zvIX_" target="_blank" class="card">
+                <img src="Images/Thumbnail2.jpg" alt="Divine Time" class="card-image">
+                <div class="card-content">
+                    <div class="card-title">Divine Time</div>
+                    <div class="card-meta">
+                        <span>Reaction</span>
+                        <span class="card-tag">View Video</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://youtu.be/z03QAWcUMTw?si=_gHkCDv4RFBaUmQr" target="_blank" class="card">
+                <img src="Images/Thumbnail3.jpg" alt="700K Spotify Streams" class="card-image">
+                <div class="card-content">
+                    <div class="card-title">700K Spotify Streams</div>
+                    <div class="card-meta">
+                        <span>Growth</span>
+                        <span class="card-tag">View Video</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://youtu.be/e-SjEb9iQ0Y?si=Up0l2rZfMUA_lhKB" target="_blank" class="card">
+                <img src="Images/Thumbnail4.jpg" alt="Rappers got Talent" class="card-image">
+                <div class="card-content">
+                    <div class="card-title">Rappers got Talent</div>
+                    <div class="card-meta">
+                        <span>Crypto</span>
+                        <span class="card-tag">View Video</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://www.youtube.com/@keshavjindal567" target="_blank" class="card">
+                <img src="Images/Thumbnail5.jpg" alt="Select Altcoins like a Pro" class="card-image">
+                <div class="card-content">
+                    <div class="card-title">Select Altcoins like a Pro</div>
+                    <div class="card-meta">
+                        <span>Music</span>
+                        <span class="card-tag">View Video</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://www.youtube.com/@keshavjindal567" target="_blank" class="card">
+                <img src="Images/Thumbnail6.jpg" alt="Increase your Trading Results" class="card-image">
+                <div class="card-content">
+                    <div class="card-title">Increase your Trading Results</div>
+                    <div class="card-meta">
+                        <span>Trading</span>
+                        <span class="card-tag">View Video</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://www.youtube.com/@Glitch._.3" target="_blank" class="card">
+                <img src="Images/Thumbnail7.jpg" alt="Reacting on Rawal's Album" class="card-image">
+                <div class="card-content">
+                    <div class="card-title">Reacting on Rawal's Album</div>
+                    <div class="card-meta">
+                        <span>Collab</span>
+                        <span class="card-tag">View Video</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://youtu.be/YdcUaBI22C4?si=f3IewjBEI0O-bJ1R" target="_blank" class="card">
+                <img src="Images/Thumbnail8.jpg" alt="Cheese Garlic Naan w/Calm & Yashraj" class="card-image">
+                <div class="card-content">
+                    <div class="card-title">Cheese Garlic Naan w/Calm & Yashraj</div>
+                    <div class="card-meta">
+                        <span>Lifestyle</span>
+                        <span class="card-tag">View Video</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://youtu.be/2MERdI4A6YQ?si=XbUYKeHCKfoe3h_F" target="_blank" class="card">
+                <img src="Images/Thumbnail9.jpg" alt="Reacting w/NaamSujal" class="card-image">
+                <div class="card-content">
+                    <div class="card-title">Reacting w/NaamSujal</div>
+                    <div class="card-meta">
+                        <span>Vlog</span>
+                        <span class="card-tag">View Video</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://youtu.be/g4vp9gd84wA?si=qhIPXCtVQ3WBb5cS" target="_blank" class="card">
+                <img src="Images/Thumbnail10.jpg" alt="Debt to Profit" class="card-image">
+                <div class="card-content">
+                    <div class="card-title">Loan to 5 Crore</div>
+                    <div class="card-meta">
+                        <span>Finance</span>
+                        <span class="card-tag">View Video</span>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+
+        <h3 class="section-title" id="services">What I Do</h3>
+        <div class="services-section">
+            <div class="service-list">
+                <div class="service-item">
+                    <h4>Thumbnail Design</h4>
+                    <p>High CTR visuals tailored for YouTube algorithms.</p>
+                </div>
+                <div class="service-item">
+                    <h4>Channel Branding</h4>
+                    <p>Complete visual identity including banners & logos.</p>
+                </div>
+                <div class="service-item">
+                    <h4>Social Assets</h4>
+                    <p>Posters, Instagram stories, and promos.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-section" id="contact">
+            <div class="contact-info">
+                <h3>Let's Work Together</h3>
+                <p style="color:#aaa;">Ready to take your content to the next level?</p>
+                <a href="https://wa.me/8329014831" class="btn-primary">WhatsApp Me</a>
+           	<a href="https://instagram.com/dzynsbysoham" class="btn-primary">Instagram Me</a>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 dzynsbysoham. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Custom Cursor Logic
+        if (window.matchMedia("(pointer: fine)").matches) {
+            const cursor = document.querySelector('.cursor');
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+            document.querySelectorAll('a, button, .card').forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+            });
+        }
+
+        // Scroll Reveal
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .services-section, .contact-section, .hero-section').forEach((el, index) => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = `all 0.6s ease-out ${index * 0.05}s`;
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
